@@ -15,8 +15,9 @@ services:
       - backend
 
   nginx:
-    image: nginx:1.28.3-alpine
     container_name: test-task-nginx
+    build:
+      context: ./nginx
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
       BACKEND_PORT: ${BACKEND_PORT}

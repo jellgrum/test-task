@@ -65,6 +65,18 @@ jobs:
         with:
           dockerfile: backend/Dockerfile
 
+  lint-nginx-dockerfile:
+    name: Lint Nginx Dockerfile (hadolint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: nginx/Dockerfile
+
   lint-docker-compose:
     name: Lint docker-compose.yml
     runs-on: ubuntu-latest

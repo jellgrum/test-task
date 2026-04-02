@@ -36,13 +36,16 @@ jobs:
     name: Scan nginx image (Trivy)
     runs-on: ubuntu-latest
     steps:
-      - name: Pull nginx image
-        run: docker pull nginx:1.28.3-alpine
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build nginx image
+        run: docker build -t test-task-nginx ./nginx
 
       - name: Run Trivy vulnerability scanner on nginx image
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'nginx:1.28.3-alpine'
+          image-ref: 'test-task-nginx'
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
