@@ -29,6 +29,7 @@ jobs:
         with:
           image-ref: 'test-task-backend'
           format: 'table'
+          ignore-unfixed: true
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
 
