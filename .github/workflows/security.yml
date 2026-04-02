@@ -6,8 +6,6 @@ on:
     workflows: ["Linting"]
     types:
       - completed
-    branches:
-      - '**'
 
 concurrency:
   group: security-${{ github.ref }}
