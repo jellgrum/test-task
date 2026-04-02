@@ -13,6 +13,11 @@ services:
       context: ./backend
     networks:
       - backend
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
 
   nginx:
     container_name: test-task-nginx
@@ -36,3 +41,8 @@ services:
       interval: 1m
       timeout: 5s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
