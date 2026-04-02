@@ -38,6 +38,20 @@ services:
     command: /bin/sh -c "envsubst '$${DOMAIN_NAME} $${BACKEND_PORT}' < /etc/nginx/nginx.conf > /tmp/nginx.conf && nginx -c /tmp/nginx.conf -g 'daemon off;'"
     networks:
       - backend
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+      - CHOWN
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
     ports:
       - "0.0.0.0:80:80"
     depends_on:
