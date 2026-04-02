@@ -50,3 +50,27 @@ curl http://localhost/
 curl http://localhost/health
 # Expected: OK
 ```
+
+## CI Checks
+
+Two GitHub Actions pipelines run on every push/pull request to any branch and are also available for manual launch.
+
+**Linting** ([`.github/workflows/linting.yml`](.github/workflows/linting.yml)):
+
+| Job                | Tool           | Target               |
+|--------------------|----------------|----------------------|
+| Python linting     | Ruff           | `backend/`           |
+| Nginx linting      | Gixy           | `nginx/nginx.conf`   |
+| Dockerfile linting | Hadolint       | `backend/Dockerfile` |
+| Dockerfile linting | Hadolint       | `nginx/Dockerfile`   |
+| Compose validation | Docker Compose | `docker-compose.yml` |
+
+**Security** ([`.github/workflows/security.yml`](.github/workflows/security.yml)) — runs after linting passes:
+
+| Job         | Tool  | Target                  |
+|-------------|-------|-------------------------|
+| Image scan  | Trivy | `backend` (built image) |
+| Image scan  | Trivy | `nginx:1.28.3-alpine`   |
+| Config scan | Trivy | `docker-compose.yml`    |
+
+All Trivy scans report **CRITICAL** and **HIGH** severity vulnerabilities and fail the pipeline if any are found.
