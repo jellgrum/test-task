@@ -53,8 +53,8 @@ jobs:
       - name: Run gixy
         run: gixy nginx/nginx.conf
 
-  lint-dockerfile:
-    name: Lint Dockerfile (hadolint)
+  lint-backend-dockerfile:
+    name: Lint Backend Dockerfile (hadolint)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

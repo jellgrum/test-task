@@ -62,6 +62,7 @@ Two GitHub Actions pipelines run on every push/pull request to any branch and ar
 | Python linting     | Ruff           | `backend/`           |
 | Nginx linting      | Gixy           | `nginx/nginx.conf`   |
 | Dockerfile linting | Hadolint       | `backend/Dockerfile` |
+| Dockerfile linting | Hadolint       | `nginx/Dockerfile`   |
 | Compose validation | Docker Compose | `docker-compose.yml` |
 
 **Security** ([`.github/workflows/security.yml`](.github/workflows/security.yml)) — runs after linting passes:
