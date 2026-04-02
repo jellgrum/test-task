@@ -1,0 +1,37 @@
+name: test-task
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  backend:
+    container_name: test-task-backend
+    environment:
+      APP_PORT: ${BACKEND_PORT}
+    build:
+      context: ./backend
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:1.28.3-alpine
+    container_name: test-task-nginx
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      BACKEND_PORT: ${BACKEND_PORT}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    command: /bin/sh -c "envsubst '$${DOMAIN_NAME} $${BACKEND_PORT}' < /etc/nginx/nginx.conf > /tmp/nginx.conf && nginx -c /tmp/nginx.conf -g 'daemon off;'"
+    networks:
+      - backend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    healthcheck:
+      test: "curl -f http://localhost/health || exit 1"
+      start_period: 5s
+      interval: 1m
+      timeout: 5s
+      retries: 3
